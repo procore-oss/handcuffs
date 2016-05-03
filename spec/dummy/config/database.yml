@@ -1,0 +1,14 @@
+default: &default
+  adapter: postgresql
+  pool: 5
+  timeout: 5000
+  username: <%= ENV['POSTGRES_DB_USERNAME'] %>
+  password: <%= ENV['POSTGRES_DB_PASSWORD'] %>
+
+development:
+  <<: *default
+  database: handcuffs_development
+
+test:
+  <<: *default
+  database: handcuffs_test
