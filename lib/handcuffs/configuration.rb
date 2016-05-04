@@ -1,8 +1,10 @@
+require "handcuffs/errors/configuration_block_missing_error"
+
 module Handcuffs
   mattr_accessor :config
 
   def self.configure
-    raise 'must pass a block to Handcuffs.configure' unless block_given?
+    raise ConfigurationBlockMissingError unless block_given?
     @@config = Configurator.new
     yield @@config
   end
