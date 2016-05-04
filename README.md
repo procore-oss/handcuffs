@@ -1,5 +1,7 @@
 # Handcuffs
 
+[![Circle CI](https://circleci.com/gh/procore/handcuffs.svg?style=svg)](https://circleci.com/gh/procore/handcuffs)
+
 Handcuffs provides an easy way to run migrations in phases in your [Ruby on
 Rails](https://rubyonrails.org/) application.
 
