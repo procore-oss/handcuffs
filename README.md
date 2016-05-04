@@ -112,3 +112,16 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/procor
 
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
 
+## About Procore
+
+<img
+  src="https://www.procore.com/images/procore_logo.png"
+  alt="Procore Logo"
+  width="250px"
+/>
+
+Handcuffs is maintained by Procore Technologies.
+
+Procore - building the software that builds the world.
+
+Learn more about the #1 most widely used construction management software at [procore.com](https://www.procore.com/)
