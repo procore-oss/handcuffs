@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Brad Urani"]
   spec.email         = ["bradurani@gmail.com", "opensource@procore.com"]
 
-  spec.summary       = %q{A Ruby gem for running Active Record migrations in phase}
-  spec.description   = %q{Allows you to define phase for migrations and run only the phase desired}
+  spec.summary       = %q{A Ruby gem for running Active Record migrations in phases}
+  spec.description   = %q{Allows you to define a phase on Active Record migrations and provides rake tasks for running only migrations tagged with a certain phase}
   spec.homepage      = "https://github.com/procore/handcuffs/"
   spec.license       = "MIT"
 
@@ -27,7 +27,6 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.add_development_dependency "bundler", "~> 1.11"
   spec.add_development_dependency "rspec-rails", "~> 3.0"
   spec.add_development_dependency "pg"
   spec.add_development_dependency "pry"
