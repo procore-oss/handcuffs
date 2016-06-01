@@ -38,7 +38,7 @@ end
 ```ruby
 # db/migrate/20160318230988_add_on_sale_index
 
-class AddOnSaleColumn < ActiveRecord::Migration
+class AddOnSaleIndex < ActiveRecord::Migration
 
   phase :post_deploy
 
