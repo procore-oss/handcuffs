@@ -5,7 +5,7 @@
     def initialize(task)
       msg = <<-MESSAGE
         rake #{task} requires a phase argument.
-        For example: #{task}[pre_deploy]
+        For example: #{task}[pre_restart]
       MESSAGE
       super(msg)
     end

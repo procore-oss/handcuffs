@@ -1,6 +1,6 @@
 class AddTableFoo < ActiveRecord::Migration
 
-  phase :pre_deploy
+  phase :pre_restart
 
   def up
     create_table :foo do |t|

@@ -1,6 +1,6 @@
 class AddColumnFooWidgetCount < ActiveRecord::Migration
 
-  phase :pre_deploy
+  phase :pre_restart
 
   def up
     add_column :foo, :widget_count, :integer

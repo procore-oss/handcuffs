@@ -11,7 +11,7 @@ To configure, first create a handcuff initializer and define a configuration
 # config/initializers/handcuffs.rb
 
 Handcuffs.configure do |config|
-  config.phases = [:pre_deploy, :post_deploy]
+  config.phases = [:pre_restart, :post_restart]
 end
 ```
 
@@ -22,7 +22,7 @@ Then call `phase` from inside your migrations
 
 class AddOnSaleColumn < ActiveRecord::Migration
 
-  phase :pre_deploy
+  phase :pre_restart
 
   def up
     add_column :products, :on_sale, :boolean
@@ -40,7 +40,7 @@ end
 
 class AddOnSaleIndex < ActiveRecord::Migration
 
-  phase :post_deploy
+  phase :post_restart
 
   def up
     add_index :products, :on_sale, algorithm: :concurrently
@@ -55,11 +55,11 @@ end
 
 You can then run your migrations in phases using
 ```bash
-rake handcuffs:migrate[pre_deploy]
+rake handcuffs:migrate[pre_restart]
 ```
 or
 ```bash
-rake handcuffs:migrate[post_deploy]
+rake handcuffs:migrate[post_restart]
 ```
 
 You can run all migrations using
@@ -77,8 +77,8 @@ error, you can define a default phase for migrations that don't define one.
 # config/initializers/handcuffs.rb
 
 Handcuffs.configure do |config|
-  config.phases = [:pre_deploy, :post_deploy]
-  config.default_phase = :pre_deploy
+  config.phases = [:pre_restart, :post_restart]
+  config.default_phase = :pre_restart
 end
 ```
 

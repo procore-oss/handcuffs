@@ -50,9 +50,9 @@ class Handcuffs::PhaseFilter
 
   def check_order_down!(by_phase, defined_phases)
     #There's no way to do this without some super hackery. If we run rake
-    #handcuffs::rollback[:post_deploy] and the top of the list (in desc order)
-    #in a pre_deploy, we don't know if that was run before or after the
-    #last post_deploy because we can't count on the versions to give us the
+    #handcuffs::rollback[:post_restart] and the top of the list (in desc order)
+    #in a pre_restart, we don't know if that was run before or after the
+    #last post_restart because we can't count on the versions to give us the
     #execution order. Without storing the execution order in another table,
     #there's no way to implement this
   end

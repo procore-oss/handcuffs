@@ -1,6 +1,6 @@
 class AddFooWhatzitDefault < ActiveRecord::Migration
 
-  phase :post_deploy
+  phase :post_restart
 
   def up
     change_column_default :foo, :whatzit_count, 0
