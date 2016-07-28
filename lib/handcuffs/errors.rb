@@ -31,7 +31,7 @@
     end
   end
 
-  class HandcuffsUnknownPhaseDeclaredError < HandcuffsError
+  class HandcuffsPhaseUndeclaredError < HandcuffsError
     def initialize(found_phases, allowed_phases)
       msg = <<-MESSAGE
         found declarations for #{found_phases.to_sentence}

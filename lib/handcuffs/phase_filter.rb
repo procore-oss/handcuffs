@@ -10,6 +10,7 @@ class Handcuffs::PhaseFilter
   def filter(migration_proxies)
     migration_hashes = proxies_with_migrations(migration_proxies)
     check_for_undefined_phases!(migration_hashes)
+    check_for_undeclared_phases!(migration_hashes)
     by_phase = migration_hashes.lazy.group_by { |mh| phase(mh[:migration]) }
     defined_phases = Handcuffs.config.phases
     if(attempted_phase == :all)
@@ -74,15 +75,14 @@ class Handcuffs::PhaseFilter
     end
   end
 
-  def check_for_unknown_phases!(migration_hashes)
+  def check_for_undeclared_phases!(migration_hashes)
     unknown_phases = migrations_hashes
-      .reject { |mh| mh[:migration].handcuffs_phase.nil? }
-      .select do |mh| 
-        !h[:migration].handcuffs_phase.in?(Handcuffs.config.phases)
-      end
-    if unknown_phases
-      raise HandcuffsUnknownPhaseError.new(uknown_phases.map { |mh| mh[:migration].handcuffs_phase }), 
-        Handcuffs.config.phases)
+      .lazy
+      .map { |mh| mh[:migration].handcuffs_phase }
+      .compact
+      .select { |phase| !phase.in?(Handcuffs.config.phases }
+    if (unknown_phases)
+      raise HandcuffsPhaseUndeclaredError.new(unknown_phases, Handcuffs.config.phases)
     end
   end
 
