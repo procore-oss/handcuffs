@@ -81,7 +81,7 @@ class Handcuffs::PhaseFilter
       .map { |mh| mh[:migration].handcuffs_phase }
       .reject(&:nil?)
       .select { |phase| !phase.in?(Handcuffs.config.phases) }.to_a
-    if (unknown_phases)
+    if (unknown_phases.any?)
       raise HandcuffsPhaseUndeclaredError.new(unknown_phases, Handcuffs.config.phases)
     end
   end
