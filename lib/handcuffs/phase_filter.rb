@@ -76,7 +76,7 @@ class Handcuffs::PhaseFilter
   end
 
   def check_for_undeclared_phases!(migration_hashes)
-    unknown_phases = migrations_hashes
+    unknown_phases = migration_hashes
       .lazy
       .map { |mh| mh[:migration].handcuffs_phase }
       .compact
