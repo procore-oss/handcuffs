@@ -79,7 +79,7 @@ class Handcuffs::PhaseFilter
     unknown_phases = migration_hashes
       .lazy
       .map { |mh| mh[:migration].handcuffs_phase }
-      .compact
+      .reject(&:nil?)
       .select { |phase| !phase.in?(Handcuffs.config.phases) }
     if (unknown_phases)
       raise HandcuffsPhaseUndeclaredError.new(unknown_phases, Handcuffs.config.phases)
