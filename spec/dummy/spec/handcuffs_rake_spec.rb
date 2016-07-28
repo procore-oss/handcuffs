@@ -27,7 +27,7 @@ RSpec.describe 'handcuffs:migrate' do
       end
     end
 
-    it 'raises unknown phase error if given unkown phase' do
+    it 'raises unknown phase error if given unknown phase' do
       expect { subject.invoke(:foo) }.to raise_error(HandcuffsUnknownPhaseError)
     end
 

@@ -43,8 +43,8 @@ class Handcuffs::PhaseFilter
     defined_phases.take_while { |defined_phase| defined_phase != attempted_phase }
       .detect { |defined_phase| by_phase.key?(defined_phase) }
       .tap do |defined_phase|
-        raise HandcuffsPhaseOutOfOrderError.new(defined_phase, attempted_phase) if defined_phase
-      end
+      raise HandcuffsPhaseOutOfOrderError.new(defined_phase, attempted_phase) if defined_phase
+    end
   end
 
   def check_order_down!(by_phase, defined_phases)
@@ -71,6 +71,18 @@ class Handcuffs::PhaseFilter
         filenames = nil_migration_hashes.map { |mh| mh[:proxy].filename }
         raise HandcuffsPhaseUndefinedError.new(filenames)
       end
+    end
+  end
+
+  def check_for_unknown_phases!(migration_hashes)
+    unknown_phases = migrations_hashes
+      .reject { |mh| mh[:migration].handcuffs_phase.nil? }
+      .select do |mh| 
+        !h[:migration].handcuffs_phase.in?(Handcuffs.config.phases)
+      end
+    if unknown_phases
+      raise HandcuffsUnknownPhaseError.new(uknown_phases.map { |mh| mh[:migration].handcuffs_phase }), 
+        Handcuffs.config.phases)
     end
   end
 

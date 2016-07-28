@@ -31,6 +31,16 @@
     end
   end
 
+  class HandcuffsUnknownPhaseDeclaredError < HandcuffsError
+    def initialize(found_phases, allowed_phases)
+      msg = <<-MESSAGE
+        found declarations for #{found_phases.to_sentence}
+        but only #{allowed_phases.to_sentence} are allowed
+      MESSAGE
+      super msg
+    end
+  end
+
   class HandcuffsPhaseOutOfOrderError < HandcuffsError
     def initialize(not_run_phase, attempted_phase)
       msg = <<-MESSAGE
