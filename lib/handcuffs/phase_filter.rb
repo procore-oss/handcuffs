@@ -44,8 +44,8 @@ class Handcuffs::PhaseFilter
     defined_phases.take_while { |defined_phase| defined_phase != attempted_phase }
       .detect { |defined_phase| by_phase.key?(defined_phase) }
       .tap do |defined_phase|
-      raise HandcuffsPhaseOutOfOrderError.new(defined_phase, attempted_phase) if defined_phase
-    end
+        raise HandcuffsPhaseOutOfOrderError.new(defined_phase, attempted_phase) if defined_phase
+      end
   end
 
   def check_order_down!(by_phase, defined_phases)
