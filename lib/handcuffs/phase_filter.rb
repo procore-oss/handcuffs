@@ -80,7 +80,7 @@ class Handcuffs::PhaseFilter
       .lazy
       .map { |mh| mh[:migration].handcuffs_phase }
       .compact
-      .select { |phase| !phase.in?(Handcuffs.config.phases }
+      .select { |phase| !phase.in?(Handcuffs.config.phases) }
     if (unknown_phases)
       raise HandcuffsPhaseUndeclaredError.new(unknown_phases, Handcuffs.config.phases)
     end
