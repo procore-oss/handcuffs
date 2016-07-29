@@ -5,7 +5,7 @@
     def initialize(task)
       msg = <<-MESSAGE
         rake #{task} requires a phase argument.
-        For example: #{task}[pre_deploy]
+        For example: #{task}[pre_restart]
       MESSAGE
       super(msg)
     end
@@ -26,6 +26,16 @@
       msg = <<-MESSAGE
         Unknown phase #{phase.to_s}
         Handcuffs is configured to allow #{phases.to_sentence}
+      MESSAGE
+      super msg
+    end
+  end
+
+  class HandcuffsPhaseUndeclaredError < HandcuffsError
+    def initialize(found_phases, allowed_phases)
+      msg = <<-MESSAGE
+        found declarations for #{found_phases.to_sentence}
+        but only #{allowed_phases.to_sentence} are allowed
       MESSAGE
       super msg
     end

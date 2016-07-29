@@ -2,7 +2,7 @@ class AddIndexFooWidgetCount < ActiveRecord::Migration
 
   disable_ddl_transaction!
 
-  phase :post_deploy
+  phase :post_restart
 
   def up
     add_index :foo,
