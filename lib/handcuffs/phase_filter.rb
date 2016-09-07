@@ -59,7 +59,7 @@ class Handcuffs::PhaseFilter
 
   def all_phases_by_configuration_order(by_phase, defined_phases)
     defined_phases.reduce([]) do |acc, phase|
-      acc | by_phase[phase]
+      acc | Array(by_phase[phase])
     end.map { |mh| mh[:proxy] }
   end
 
