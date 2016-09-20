@@ -54,6 +54,7 @@ RSpec.describe 'handcuffs:migrate' do
             add_table_bar_version
           ]
           hash_array = File.readlines(filename).map { |line| JSON.parse(line).symbolize_keys }
+          expect(hash_array.length).to eql 4
           expect(hash_array[0]).to include({
             version: 20160329040426,
             direction: 'up',
@@ -189,6 +190,32 @@ RSpec.describe 'handcuffs:rollback' do
           add_index_foo_widget_count_version,
           add_foo_whatzit_default_version
         ]
+      end
+
+      it 'works with log file' do
+        rake['handcuffs:migrate'].invoke(:all)
+        filename = 'handcuffs.pre_restart.12343289.json'
+        ENV['HANDCUFFS_LOG'] = filename
+        begin
+          subject.invoke(:pre_restart)
+          expect(SchemaMigrations.pluck(:version)).to eq [
+            add_table_foo_version,
+            add_column_foo_widget_count_version,
+            add_column_foo_whatzit_count_version,
+            add_index_foo_widget_count_version,
+            add_foo_whatzit_default_version
+          ]
+          hash_array = File.readlines(filename).map { |line| JSON.parse(line).symbolize_keys }
+          expect(hash_array.length).to eql 1
+          expect(hash_array[0]).to include({
+            version: 20160330005509,
+            direction: 'down',
+            phase: 'pre_restart'
+          })
+          ENV['HANDCUFFS_LOG'] = nil
+        ensure
+          File.delete(filename)
+        end
       end
     end
   end
