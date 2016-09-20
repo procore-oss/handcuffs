@@ -26,6 +26,9 @@ namespace :handcuffs do
     ActiveRecord::Migrator.prepend(PendingFilter)
     ActiveRecord::Migrator.extend(PhaseAccessor)
     ActiveRecord::Migrator.handcuffs_phase = phase
+    if(ENV['HANDCUFFS_LOG'])
+      ActiveRecord::Migration.prepend(Handcuffs::Logger)
+    end
   end
 
   def run_task(name)
