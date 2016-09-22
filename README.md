@@ -104,7 +104,7 @@ as a set using:
 rake handcuffs:migrate_log:down[handcuffs.up.pre_restart.20160931213.json]
 ```
 ```bash
-rake handcuffs:migrate_log:up[handcuffs.up.pre_restart.20160931213.json]
+rake handcuffs:migrate_log:up[handcuffs.down.pre_restart.20160931213.json]
 ```
 
 ## Installation
