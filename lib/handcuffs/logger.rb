@@ -26,7 +26,6 @@ module Handcuffs::Logger
         file.puts(hash.to_json)
       end
     end
-  rescue
   end
 
   def filename
