@@ -4,7 +4,7 @@ module Handcuffs::Logger
     start_time = Time.now
     super
     end_time = Time.now
-    phase = @handcuffs_phase || Handcuffs.config.default_phase
+    phase = self.class.handcuffs_phase || Handcuffs.config.default_phase
     log(version, phase, direction, start_time, end_time)
   end
 
