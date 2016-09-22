@@ -11,15 +11,19 @@ module Handcuffs::Logger
   private
 
   def log(version, phase, direction, start_time, end_time)
+    log_hash({
+      version: version,
+      phase: phase,
+      direction: direction,
+      start_time: start_time,
+      end_time: end_time
+    })
+  end
+
+  def log_hash(hash)
     if(filename)
       File.open(filename, 'a') do |file|
-        file.puts({
-          version: version,
-          phase: phase,
-          direction: direction,
-          start_time: start_time,
-          end_time: end_time
-        }.to_json)
+        file.puts(hash.to_json)
       end
     end
   end

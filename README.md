@@ -82,6 +82,20 @@ Handcuffs.configure do |config|
 end
 ```
 
+## Logging
+
+You can make handcuffs write a log of the migrations it runs by supplying the
+`HANDCUFFS_LOG` env variable.
+```bash
+HANDCUFFS_LOG=handcuffs.up.pre_restart.20160931213.json \
+rake handcuffs:migrate[:pre_restart]
+```
+
+```bash
+HANDCUFFS_LOG=handcuffs.down.pre_restart.20160931213.json \
+rake handcuffs:rollback STEP=2
+```
+
 ## Installation
 
 Add this line to your application's Gemfile:
