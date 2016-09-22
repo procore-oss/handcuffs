@@ -55,7 +55,7 @@ namespace :handcuffs do
         runnable.find_all { |m| ran?(m) }
       end
     end
- end
+  end
 
   module PhaseAccessor
     attr_accessor :handcuffs_phase
