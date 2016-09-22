@@ -224,8 +224,8 @@ end
 RSpec.describe 'handcuffs:migrate_log:down' do
   include_context 'rake'
 
-  let! (:add_table_foo_version) { '20160329040426' } #pre_restart
-  let! (:add_column_foo_widget_count_version){ '20160329042840' } #pre_restart
+  let!(:add_table_foo_version) { '20160329040426' } #pre_restart
+  let!(:add_column_foo_widget_count_version){ '20160329042840' } #pre_restart
   let!(:add_index_foo_widget_count_version) { '20160329224617' } #post_restart
   let!(:add_column_foo_whatzit_count_version){ '20160330002738' } #pre_restart
   let!(:add_foo_whatzit_default_version){ '20160330003159' } #post_restart
