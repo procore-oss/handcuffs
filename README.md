@@ -96,6 +96,17 @@ HANDCUFFS_LOG=handcuffs.down.pre_restart.20160931213.json \
 rake handcuffs:rollback STEP=2
 ```
 
+## Reversing logged migrations
+
+If your handcuffs migrations write to a log, you can reverse those migrations
+as a set using:
+```bash
+rake handcuffs:migrate_log:down[handcuffs.up.pre_restart.20160931213.json]
+```
+```bash
+rake handcuffs:migrate_log:up[handcuffs.up.pre_restart.20160931213.json]
+```
+
 ## Installation
 
 Add this line to your application's Gemfile:
