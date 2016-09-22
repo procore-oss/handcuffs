@@ -1,3 +1,5 @@
+require 'file_utils'
+
 namespace :handcuffs do
   task :migrate, [:phase] => :environment do |t,args|
     phase = setup(args, 'handcuffs:migrate')
@@ -32,6 +34,9 @@ namespace :handcuffs do
   end
 
   def run_task(name)
+    if ENV['HANDCUFFS_LOG']
+      FileUtils.touch(ENV['HANDCUFFS_LOG']) #ensure we can write so we're not surprised my permission errors
+    end
     Rake::Task.clear # necessary to avoid tasks being loaded several times in dev mode
     Rails.application.load_tasks 
     Rake::Task[name].reenable # in case you're going to invoke the same task second time.
