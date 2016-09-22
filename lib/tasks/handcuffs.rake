@@ -13,6 +13,19 @@ namespace :handcuffs do
     run_task('db:rollback')
   end
 
+  namespace :migrate_log do
+    task :up, [:filename] => :environment do |t,args|
+      raise HandcuffsLogFilenameRequired.new unless args.filename
+      Handcuffs::LogMigrator.new(args.filename, :up).migrate
+    end
+
+    task :down, [:filename] => :environment do |t,args|
+      raise HandcuffsLogFilenameRequired.new unless args.filename
+      Handcuffs::LogMigrator.new(args.filename, :down).migrate
+    end
+  end
+
+
   def setup(args, task)
     phase = args.phase
     raise RequiresPhaseArgumentError.new(task) unless phase.present?
