@@ -18,6 +18,7 @@ class Handcuffs::LogMigrator
     ENV['VERSION'] = version.to_s
     Rake::Task["db:migrate:#{@direction}"].reenable
     Rake::Task["db:migrate:#{@direction}"].invoke
+    ENV['VERSION'] = nil
   end
 
   private
