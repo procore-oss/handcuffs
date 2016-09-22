@@ -1,4 +1,4 @@
-require 'file_utils'
+require 'fileutils'
 
 namespace :handcuffs do
   task :migrate, [:phase] => :environment do |t,args|
