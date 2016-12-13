@@ -1,6 +1,20 @@
 machine:
+  environment:
+    POSTGRES_DB_DATABASE: circle_test
+    POSTGRES_DB_USERNAME: ubuntu
+    POSTGRES_DB_PASSWORD: ''
   ruby:
-    version: 2.2.3
+    version: 2.3.3
 
-general:
-  build_dir: spec/dummy
+database:
+  override:
+    - echo 'Using circle_test'
+    - cd spec/dummy && bin/rake db:create db:migrate --trace
+
+dependencies:
+  post:
+    - bundle exec appraisal install
+test:
+  override:
+    - bundle exec appraisal rspec
+    - cd spec/dummy && bin/rspec
