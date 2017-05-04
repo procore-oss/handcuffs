@@ -9,3 +9,4 @@
 /tmp/
 handcuffs-*.gem
 /gemfiles/*.gemfile.lock
+.ruby-version
