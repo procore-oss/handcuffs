@@ -1,4 +1,4 @@
-class AddTableBar < ActiveRecord::Migration
+class AddTableBar < ACTIVE_RECORD_MIGRATION_CLASS
 
   #look ma, no phase!
 

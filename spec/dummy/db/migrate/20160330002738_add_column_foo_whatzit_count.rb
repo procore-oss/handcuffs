@@ -1,4 +1,4 @@
-class AddColumnFooWhatzitCount < ActiveRecord::Migration
+class AddColumnFooWhatzitCount < ACTIVE_RECORD_MIGRATION_CLASS
 
   phase :pre_restart
 

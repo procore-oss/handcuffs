@@ -1,4 +1,4 @@
-class AddIndexFooWidgetCount < ActiveRecord::Migration
+class AddIndexFooWidgetCount < ACTIVE_RECORD_MIGRATION_CLASS
 
   disable_ddl_transaction!
 
