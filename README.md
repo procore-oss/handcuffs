@@ -55,16 +55,16 @@ end
 
 You can then run your migrations in phases using
 ```bash
-rake handcuffs:migrate[pre_restart]
+rake 'handcuffs:migrate[pre_restart]'
 ```
 or
 ```bash
-rake handcuffs:migrate[post_restart]
+rake 'handcuffs:migrate[post_restart]'
 ```
 
 You can run all migrations using
 ```bash
-rake handcuffs:migrate[all]
+rake 'handcuffs:migrate[all]'
 ```
 
 This differs from running `rake db:migrate` in that specs will be run in the
