@@ -59,3 +59,5 @@
       super msg
     end
   end
+  
+  class HandcuffsLogFilenameRequired < HandcuffsError; end
