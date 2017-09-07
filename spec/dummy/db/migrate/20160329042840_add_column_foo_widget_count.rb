@@ -1,4 +1,4 @@
-class AddColumnFooWidgetCount < ActiveRecord::Migration
+class AddColumnFooWidgetCount < ACTIVE_RECORD_MIGRATION_CLASS
 
   phase :pre_restart
 

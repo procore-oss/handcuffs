@@ -1,4 +1,4 @@
-class AddTableFoo < ActiveRecord::Migration
+class AddTableFoo < ACTIVE_RECORD_MIGRATION_CLASS
 
   phase :pre_restart
 

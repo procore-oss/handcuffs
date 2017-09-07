@@ -1,4 +1,4 @@
-class AddFooWhatzitDefault < ActiveRecord::Migration
+class AddFooWhatzitDefault < ACTIVE_RECORD_MIGRATION_CLASS
 
   phase :post_restart
 
