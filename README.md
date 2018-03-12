@@ -98,7 +98,7 @@ Or install it yourself as:
 
     $ gem install handcuffs
 
-##Running specs
+## Running specs
 
 The specs for handcuffs are in the dummy application at `/spec/dummy/spec`. The
 spec suite requires PostgreSQL. To run it you will have to set the environment
