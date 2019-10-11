@@ -2,7 +2,8 @@ default: &default
   adapter: postgresql
   pool: 5
   timeout: 5000
-  url: postgres://postgres:postgres@localhost
+  username: <%= ENV['POSTGRES_DB_USERNAME'] %>
+  password: <%= ENV['POSTGRES_DB_PASSWORD'] %>
 
 development:
   <<: *default
