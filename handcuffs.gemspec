@@ -33,5 +33,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "pry-byebug"
   spec.add_development_dependency "rspec-rails", "~> 3.0"
 
-  spec.add_runtime_dependency "rails", ">= 4.0", "< 6.0"
+  spec.add_runtime_dependency "rails", ">= 4.0", "<= 6.0"
 end
