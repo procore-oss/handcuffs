@@ -2,7 +2,7 @@ PATH
   remote: ../..
   specs:
     handcuffs (1.2.0)
-      rails (>= 4.0, < 6.0)
+      rails (>= 4.0, <= 6.0)
 
 GEM
   remote: https://rubygems.org/
@@ -73,7 +73,7 @@ GEM
       pry (~> 0.10)
     pry-rails (0.3.6)
       pry (>= 0.10.4)
-    rack (1.6.5)
+    rack (1.6.11)
     rack-test (0.6.3)
       rack (>= 1.0)
     rails (4.2.8)
