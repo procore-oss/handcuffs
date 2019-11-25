@@ -1,10 +1,11 @@
 machine:
   environment:
+    RAILS_ENV: test
     POSTGRES_DB_DATABASE: circle_test
     POSTGRES_DB_USERNAME: ubuntu
     POSTGRES_DB_PASSWORD: ''
   ruby:
-    version: 2.3.3
+    version: 2.3.8
 
 database:
   override:
@@ -12,9 +13,23 @@ database:
     - cd spec/dummy && bin/rake db:create db:migrate --trace
 
 dependencies:
+  pre:
+    - rvm install 2.3.8
+    - rvm install 2.4.6
+    - rvm install 2.5.5
+    - rvm install 2.6.3
   post:
-    - bundle exec appraisal install
+    - rvm-exec 2.3.8 bundle exec appraisal install
+    - rvm-exec 2.4.6 bundle exec appraisal install
+    - rvm-exec 2.5.5 bundle exec appraisal install
+    - rvm-exec 2.6.3 bundle exec appraisal install
 test:
   override:
-    - bundle exec appraisal rspec
-    - cd spec/dummy && bin/rspec
+    - rvm-exec 2.3.8 bundle exec appraisal rspec
+    - rvm-exec 2.4.6 bundle exec appraisal rspec
+    - rvm-exec 2.5.5 bundle exec appraisal rspec
+    - rvm-exec 2.6.3 bundle exec appraisal rspec
+    - rvm-exec 2.3.8 cd spec/dummy && bin/rspec
+    - rvm-exec 2.4.6 cd spec/dummy && bin/rspec
+    - rvm-exec 2.5.5 cd spec/dummy && bin/rspec
+    - rvm-exec 2.6.3 cd spec/dummy && bin/rspec
