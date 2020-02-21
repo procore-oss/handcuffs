@@ -23,6 +23,6 @@ end
 # Rails >= 6 requires Ruby >= 2.5
 if RUBY_VERSION >= "2.5"
   appraise "rails-6" do
-    gem "rails", "~> 6.0.0"
+    gem "rails", "~> 6.0.1"
   end
 end
