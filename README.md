@@ -47,7 +47,7 @@ class AddOnSaleIndex < ActiveRecord::Migration
   end
 
   def down
-    remove_column :products, :on_sale
+    remove_index :products, :on_sale
   end
 
 end
@@ -67,8 +67,8 @@ You can run all migrations using
 rake 'handcuffs:migrate[all]'
 ```
 
-This differs from running `rake db:migrate` in that specs will be run in the
-_order that the phases are defined in the handcuffs config_.
+This differs from running `rake db:migrate` in that migrations will be run in
+the _order that the phases are defined in the handcuffs config_.
 
 If you run a handcuffs rake task and any migration does not have a phase
 defined, an error will be raised before any migrations are run. To prevent this
