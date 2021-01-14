@@ -1,8 +1,8 @@
 PATH
   remote: ../..
   specs:
-    handcuffs (1.2.0)
-      rails (>= 4.0, <= 6.0)
+    handcuffs (1.4.1)
+      rails (>= 4.0)
 
 GEM
   remote: https://rubygems.org/
