@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 gem 'handcuffs', path: "../../"
 gem 'pg'
-gem 'rails', "~> 5.0"
+gem 'rails', '~> 5.2', '>= 5.2.7.1'
 gem 'sprockets', '~> 3.7'
 
 group :test do
