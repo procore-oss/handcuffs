@@ -1,6 +1,7 @@
 /.bundle/
 /.yardoc
 /Gemfile.lock
+/gemfiles/*.gemfile.lock
 /_yardoc/
 /coverage/
 /doc/
@@ -8,5 +9,4 @@
 /spec/reports/
 /tmp/
 handcuffs-*.gem
-/gemfiles/*.gemfile.lock
 .ruby-version
