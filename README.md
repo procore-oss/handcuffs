@@ -1,9 +1,10 @@
 # Handcuffs
 
-[![Circle CI](https://circleci.com/gh/procore/handcuffs.svg?style=svg)](https://circleci.com/gh/procore/handcuffs)
+[![Test](https://github.com/procore-oss/handcuffs/actions/workflows/test.yaml/badge.svg?branch=master)](https://github.com/procore-oss/handcuffs/actions/workflows/test.yaml)
+[![Gem Version](https://badge.fury.io/rb/handcuffs.svg)](https://badge.fury.io/rb/handcuffs)
+[![Discord](https://img.shields.io/badge/Chat-EDEDED?logo=discord)](https://discord.gg/PbntEMmWws) 
 
-Handcuffs provides an easy way to run migrations in phases in your [Ruby on
-Rails](https://rubyonrails.org/) application.
+Handcuffs provides an easy way to run migrations in phases in your [Ruby on Rails](https://rubyonrails.org/) application.
 
 To configure, first create a handcuff initializer and define a configuration
 
@@ -54,25 +55,27 @@ end
 ```
 
 You can then run your migrations in phases using
+
 ```bash
 rake 'handcuffs:migrate[pre_restart]'
 ```
+
 or
+
 ```bash
 rake 'handcuffs:migrate[post_restart]'
 ```
 
 You can run all migrations using
+
 ```bash
 rake 'handcuffs:migrate[all]'
 ```
 
-This differs from running `rake db:migrate` in that migrations will be run in
-the _order that the phases are defined in the handcuffs config_.
+This differs from running `rake db:migrate` in that migrations will be run in the _order that the phases are defined in the handcuffs config_.
 
-If you run a handcuffs rake task and any migration does not have a phase
-defined, an error will be raised before any migrations are run. To prevent this
-error, you can define a default phase for migrations that don't define one.
+If you run a handcuffs rake task and any migration does not have a phase defined, an error will be raised before any migrations are run. To prevent this error, you can define a default phase for migrations that don't define one.
+
 ```ruby
 # config/initializers/handcuffs.rb
 
@@ -92,23 +95,23 @@ gem 'handcuffs'
 
 And then execute:
 
-    $ bundle
+```bash
+bundle
+```
 
 Or install it yourself as:
 
-    $ gem install handcuffs
+```bash
+gem install handcuffs
+```
 
 ## Running specs
 
-The specs for handcuffs are in the dummy application at `/spec/dummy/spec`. The
-spec suite requires PostgreSQL. To run it you will have to set the environment
-variables `POSTGRES_DB_USERNAME` and `POSTGRES_DB_PASSWORD`. You can then run
-the suite using `rake spec`
+The specs for handcuffs are in the dummy application at `/spec/dummy/spec`. The spec suite requires PostgreSQL. To run it you will have to set the environment variables `POSTGRES_DB_USERNAME` and `POSTGRES_DB_PASSWORD`. You can then run the suite using `rake spec`
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/procore/handcuffs. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
-
+Bug reports and pull requests are welcome on GitHub at <https://github.com/procore-oss/handcuffs>. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 ## License
 
