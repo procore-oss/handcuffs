@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Ruby 2.7, 3.0, 3.1, 3.2, 3.3;
   - Rails 6.1, 7.0, 7.1 (via Appraisal).
 - Updated Bundler to 2.4.22.
+- Added Appraisal for dummy app testing.
 
 ### Removed
 
