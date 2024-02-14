@@ -47,6 +47,7 @@ workflows:
   test-all:
     jobs:
       - test:
+          name: "test-ruby-<< matrix.ruby_version >>-psql-<< matrix.postgresql_version >>"
           matrix:
             parameters:
               postgresql_version: ['12.17', '13.13', '14.10', '15.5', '16.1']
