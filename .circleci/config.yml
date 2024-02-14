@@ -21,7 +21,6 @@ jobs:
           POSTGRES_USER: ubuntu
           POSTGRES_DB: handcuffs_test
           POSTGRES_HOST_AUTH_METHOD: trust
-          PGDATA: /dev/shm/pgdata/data
     steps:  
       - checkout
       - run:
