@@ -10,13 +10,13 @@ jobs:
         type: string
         default: "3.0"
     docker:
-      - image: circleci/ruby:<< parameters.ruby_version >>
+      - image: cimg/ruby:<< parameters.ruby_version >>
         environment:
           - PGHOST=localhost
           - PGUSER=ubuntu
           - RAILS_ENV=test
           - BUNDLER_VERSION=1.17.3
-      - image: circleci/postgres:<< parameters.postgresql_version >>
+      - image: cimg/postgres:<< parameters.postgresql_version >>
         environment:
           POSTGRES_USER: ubuntu
           POSTGRES_DB: handcuffs_test
@@ -32,7 +32,7 @@ jobs:
           command: bundle install && cd spec/dummy && bundle install
       - run:
           name: Install Apprasals Dependencies
-          command: bundle exec appraisal install
+          command: bundle exec appraisal install && cd spec/dummy && bundle exec appraisal install
       - run:
           name: Setup Database
           command: cd spec/dummy && bundle exec rake db:create db:migrate --trace
