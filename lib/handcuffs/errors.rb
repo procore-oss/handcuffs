@@ -44,7 +44,7 @@
   class HandcuffsPhaseOutOfOrderError < HandcuffsError
     def initialize(not_run_phase, attempted_phase)
       msg = <<-MESSAGE
-        Your tried to run #{attempted_phase.to_s}, but #{not_run_phase.to_s} has not been run
+        You tried to run #{attempted_phase.to_s}, but #{not_run_phase.to_s} has not been run
       MESSAGE
       super msg
     end

@@ -1,5 +1,5 @@
 PATH
-  remote: ../..
+  remote: ../../..
   specs:
     handcuffs (1.4.1)
       rails (>= 6.1)
