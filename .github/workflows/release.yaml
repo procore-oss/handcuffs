@@ -3,7 +3,7 @@ on:
   workflow_run:
     workflows: [Test]
     types: [completed]
-    branches: [master, main]
+    branches: [main]
   workflow_dispatch: # allow manual deployment through GitHub Action UI
 jobs:
   release:

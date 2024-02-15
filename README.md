@@ -1,6 +1,6 @@
 # Handcuffs
 
-[![Test](https://github.com/procore-oss/handcuffs/actions/workflows/test.yaml/badge.svg?branch=master)](https://github.com/procore-oss/handcuffs/actions/workflows/test.yaml)
+[![Test](https://github.com/procore-oss/handcuffs/actions/workflows/test.yaml/badge.svg?branch=main)](https://github.com/procore-oss/handcuffs/actions/workflows/test.yaml)
 [![Gem Version](https://badge.fury.io/rb/handcuffs.svg)](https://badge.fury.io/rb/handcuffs)
 [![Discord](https://img.shields.io/badge/Chat-EDEDED?logo=discord)](https://discord.gg/PbntEMmWws) 
 
