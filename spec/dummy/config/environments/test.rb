@@ -1,6 +1,4 @@
-ACTIVE_RECORD_MIGRATION_CLASS = if Rails::VERSION::STRING < "5.0"
-                                  ActiveRecord::Migration
-                                else
+ACTIVE_RECORD_MIGRATION_CLASS = begin
                                   rails_version = Rails::VERSION::STRING.split(".")[0..1].join(".")
                                   eval("ActiveRecord::Migration[#{rails_version}]")
                                 end
