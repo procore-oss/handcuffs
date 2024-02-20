@@ -33,7 +33,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "pg"
   spec.add_development_dependency "pry"
   spec.add_development_dependency "pry-byebug"
-  spec.add_development_dependency "rspec-rails", "~> 3.0"
+  spec.add_development_dependency "rspec-rails", "~> 6.1"
   spec.add_development_dependency "simplecov"
 
   spec.add_runtime_dependency "rails", ">= 6.1"
