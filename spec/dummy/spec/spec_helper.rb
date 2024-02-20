@@ -16,6 +16,17 @@
 # users commonly want.
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
+
+if ENV['COVERAGE']
+  require 'simplecov'
+  SimpleCov.formatters = SimpleCov::Formatter::HTMLFormatter
+  SimpleCov.start do
+    add_filter 'spec/'
+    add_filter 'lib/tasks'
+    minimum_coverage_by_file 80
+  end
+end
+
 RSpec.configure do |config|
   ENV["RAILS_ENV"] ||= 'test'
   require File.expand_path("../../config/environment", __FILE__)
