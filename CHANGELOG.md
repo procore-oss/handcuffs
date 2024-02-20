@@ -7,9 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 2.0.0
+
 ### Added
 
 - CHANGELOG.md
+- Code coverage for specs
 
 ### Changed
 
@@ -20,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Rails 6.1, 7.0, 7.1 (via Appraisal).
 - Updated Bundler to 2.4.22.
 - Added Appraisal for dummy app testing.
+- Moved repo to procore-oss
 
 ### Removed
 
