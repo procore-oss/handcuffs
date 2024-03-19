@@ -13,6 +13,7 @@ Gem::Specification.new do |spec|
   spec.description   = %q{Allows you to define a phase on Active Record migrations and provides rake tasks for running only migrations tagged with a certain phase}
   spec.homepage      = "https://github.com/procore-oss/handcuffs/"
   spec.license       = "MIT"
+  spec.required_ruby_version = Gem::Requirement.new('>= 3.0')
 
   # Prevent pushing this gem to RubyGems.org by setting 'allowed_push_host', or
   # delete this section to allow pushing this gem to any host.
