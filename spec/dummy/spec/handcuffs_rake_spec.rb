@@ -1,4 +1,4 @@
-require_relative 'spec_helper.rb'
+require_relative 'spec_helper'
 
 RSpec.describe 'handcuffs:migrate' do
   include_context 'rake'
@@ -11,12 +11,12 @@ RSpec.describe 'handcuffs:migrate' do
   let!(:add_table_bar_version){ '20160330005509' } #none
 
   it 'raises an error when not passed a phase argument' do
-    expect { subject.invoke }.to raise_error(RequiresPhaseArgumentError)
+    expect { subject.invoke }.to raise_error(Handcuffs::RequiresPhaseArgumentError)
   end
 
   it 'raises not configured error if Handcuffs is not configured' do
-    Handcuffs.config = nil
-    expect { subject.invoke(:pre_restart) }.to raise_error(HandcuffsNotConfiguredError)
+    Handcuffs.reset_configuration!
+    expect { subject.invoke(:pre_restart) }.to raise_error(Handcuffs::NotConfiguredError)
   end
 
   context 'with basic config' do
@@ -28,7 +28,7 @@ RSpec.describe 'handcuffs:migrate' do
     end
 
     it 'raises unknown phase error if given unknown phase' do
-      expect { subject.invoke(:foo) }.to raise_error(HandcuffsUnknownPhaseError)
+      expect { subject.invoke(:foo) }.to raise_error(Handcuffs::UnknownPhaseError)
     end
 
     context '[pre_restart]' do
@@ -45,7 +45,7 @@ RSpec.describe 'handcuffs:migrate' do
 
     context '[post_restart]' do
       it 'raises phase out of order error if post_restart migrations run' do
-        expect { subject.invoke(:post_restart) }.to raise_error(HandcuffsPhaseOutOfOrderError)
+        expect { subject.invoke(:post_restart) }.to raise_error(Handcuffs::PhaseOutOfOrderError)
       end
 
       it 'runs post_restart migrations after pre_restart migrations' do
@@ -87,13 +87,15 @@ RSpec.describe 'handcuffs:migrate' do
 
   context 'no default phase' do
     before(:all) do
+      Handcuffs.reset_configuration!
+
       Handcuffs.configure do |config|
         config.phases = [:pre_restart, :post_restart]
       end
     end
 
     it 'raises error on nil phase' do
-      expect { subject.invoke(:pre_restart) }.to raise_error(HandcuffsPhaseUndefinedError)
+      expect { subject.invoke(:pre_restart) }.to raise_error(Handcuffs::MigrationMissingPhaseError)
     end
   end
 end
@@ -109,12 +111,12 @@ RSpec.describe 'handcuffs:rollback' do
   let!(:add_table_bar_version){ '20160330005509' } #none
 
   it 'raises an error when not passed a phase argument' do
-    expect { subject.invoke }.to raise_error(RequiresPhaseArgumentError)
+    expect { subject.invoke }.to raise_error(Handcuffs::RequiresPhaseArgumentError)
   end
 
   it 'raises not configured error if Handcuffs is not configured' do
-    Handcuffs.config = nil
-    expect { subject.invoke(:pre_restart) }.to raise_error(HandcuffsNotConfiguredError)
+    Handcuffs.reset_configuration!
+    expect { subject.invoke(:pre_restart) }.to raise_error(Handcuffs::NotConfiguredError)
   end
 
   context 'with basic config' do

@@ -1,11 +1,11 @@
-require "handcuffs/error"
+# frozen_string_literal: true
 
 module Handcuffs
   class ConfigurationBlockMissingError < ArgumentError
-    include Handcuffs::Error
+    include Error
 
-    def to_s
-      "block argument required"
+    def initialize
+      super('block argument required')
     end
   end
 end

@@ -11,3 +11,4 @@
 handcuffs-*.gem
 .ruby-version
 .DS_Store
+.env

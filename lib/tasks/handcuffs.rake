@@ -1,56 +1,44 @@
+# frozen_string_literal: true
+
 namespace :handcuffs do
-  task :migrate, [:phase] => :environment do |t,args|
-    phase = setup(args, 'handcuffs:migrate')
+  task :migrate, [:phase] => :environment do |task, args|
+    phase = args.phase&.to_sym
+    validate_phase_for_task!(phase: phase, task: task)
+
     patch_migrator!(phase)
     run_task('db:migrate')
   end
 
-  task :rollback, [:phase] => :environment do |t,args|
-    phase = setup(args, 'handcuffs:rollback')
+  task :rollback, [:phase] => :environment do |task, args|
+    phase = args.phase&.to_sym
+    validate_phase_for_task!(phase: phase, task: task)
+
     patch_migrator!(phase)
     run_task('db:rollback')
   end
 
-  def setup(args, task)
-    phase = args.phase
-    raise RequiresPhaseArgumentError.new(task) unless phase.present?
-    raise HandcuffsNotConfiguredError.new unless Handcuffs.config
-    phase = phase.to_sym
-    unless Handcuffs.config.phases.include?(phase) || phase == :all
-      raise HandcuffsUnknownPhaseError.new(phase, Handcuffs.config.phases)
-    end
-    phase
+  # Validates the provided phase is valid.
+  def validate_phase_for_task!(phase:, task:)
+    raise Handcuffs::RequiresPhaseArgumentError.new(task) unless phase.present?
+
+    raise Handcuffs::NotConfiguredError.new unless Handcuffs.configured?
+    return if Handcuffs.configuration.phases.include?(phase) || phase == :all
+
+    raise Handcuffs::UnknownPhaseError.new(phase)
   end
 
+  # Patches ActiveRecord::Migrator to account for phases.
   def patch_migrator!(phase)
-    ActiveRecord::Migrator.prepend(PendingFilter)
-    ActiveRecord::Migrator.extend(PhaseAccessor)
+    ActiveRecord::Migrator.extend(Handcuffs::PhaseAccessor)
+    ActiveRecord::Migrator.prepend(Handcuffs::PendingFilter)
     ActiveRecord::Migrator.handcuffs_phase = phase
   end
 
+  # Runs the specified rake task.
   def run_task(name)
     Rake::Task.clear # necessary to avoid tasks being loaded several times in dev mode
-    Rails.application.load_tasks 
+    Rails.application.load_tasks
     Rake::Task[name].reenable # in case you're going to invoke the same task second time.
     Rake::Task[name].invoke
   end
-
-  module PendingFilter
-    def runnable
-      attempted_phase = self.class.handcuffs_phase
-      if(@direction == :up)
-        Handcuffs::PhaseFilter.new(attempted_phase, @direction).filter(super)
-      else
-        phase_migrations = Handcuffs::PhaseFilter.new(attempted_phase, @direction).filter(migrations)
-        runnable = phase_migrations[start..finish]
-        runnable.pop if target
-        runnable.find_all { |m| ran?(m) }
-      end
-    end
-  end
-
-  module PhaseAccessor
-    attr_accessor :handcuffs_phase
-  end
-
 end

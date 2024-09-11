@@ -1,0 +1,24 @@
+AllCops:
+  TargetRubyVersion: 3.0
+  NewCops: enable
+
+Style/StringLiterals:
+  Enabled: false
+
+Style/RaiseArgs:
+  Enabled: false
+
+Metrics/BlockLength:
+  Max: 100
+
+Metrics/MethodLength:
+  Max: 20
+
+Layout/DotPosition:
+  EnforcedStyle: trailing
+
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: indented_relative_to_receiver
+
+Naming/MemoizedInstanceVariableName:
+  EnforcedStyleForLeadingUnderscores: required
