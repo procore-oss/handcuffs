@@ -96,6 +96,31 @@ RSpec.describe 'handcuffs:migrate' do
       expect { subject.invoke(:pre_restart) }.to raise_error(HandcuffsPhaseUndefinedError)
     end
   end
+
+  context 'explicitly dependency graph' do
+    before(:all) do
+      Handcuffs.configure do |config|
+        config.phases = {
+          post_restart: [:pre_restart],
+          pre_restart: [],
+        }
+        config.default_phase = :pre_restart
+      end
+    end
+
+    it 'can run phases without dependencies' do
+      expect { subject.invoke(:pre_restart) }.not_to raise_error
+    end
+
+    it 'enforces dependencies' do
+      expect { subject.invoke(:post_restart) }.to raise_error(HandcuffsPhaseOutOfOrderError)
+    end
+
+    it 'can run once dependencies run' do
+      subject.invoke(:pre_restart)
+      expect { subject.invoke(:post_restart) }.not_to raise_error
+    end
+  end
 end
 
 RSpec.describe 'handcuffs:rollback' do

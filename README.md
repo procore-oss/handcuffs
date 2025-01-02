@@ -2,7 +2,7 @@
 
 [![Test](https://github.com/procore-oss/handcuffs/actions/workflows/test.yaml/badge.svg?branch=main)](https://github.com/procore-oss/handcuffs/actions/workflows/test.yaml)
 [![Gem Version](https://badge.fury.io/rb/handcuffs.svg)](https://badge.fury.io/rb/handcuffs)
-[![Discord](https://img.shields.io/badge/Chat-EDEDED?logo=discord)](https://discord.gg/PbntEMmWws) 
+[![Discord](https://img.shields.io/badge/Chat-EDEDED?logo=discord)](https://discord.gg/PbntEMmWws)
 
 Handcuffs provides an easy way to run migrations in phases in your [Ruby on Rails](https://rubyonrails.org/) application.
 
@@ -72,7 +72,26 @@ You can run all migrations using
 rake 'handcuffs:migrate[all]'
 ```
 
-This differs from running `rake db:migrate` in that migrations will be run in the _order that the phases are defined in the handcuffs config_.
+This differs from running `rake db:migrate` in that migrations will be run in the _order that the phases are defined in the handcuffs config_. By default, a phase is assumed to depend on all phases named before it. Phase dependencies can be customized by declaring a dependency graph explicitly:
+
+```ruby
+# config/initializers/handcuffs.rb
+
+Handcuffs.configure do |config|
+  config.phases = {
+    # Prevent running post_restart migrations if there are outstanding
+    # pre_restart migrations
+    post_restart: [:pre_restart],
+    # Require pre_restarts before data_migrations, but do not enforce ordering
+    # between data_migrations and post_restarts
+    data_migrations: [:pre_restart],
+    # pre_restarts have no prerequisite phases
+    pre_restart: []
+  }
+end
+```
+
+The phase order of `handcuffs:migrate[all]` will satisfy these dependencies, but is otherwise unspecified.
 
 If you run a handcuffs rake task and any migration does not have a phase defined, an error will be raised before any migrations are run. To prevent this error, you can define a default phase for migrations that don't define one.
 

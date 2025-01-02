@@ -10,7 +10,7 @@ module Handcuffs
   end
 
   class Configurator
-    attr_accessor :phases
+    attr_reader :phases
     attr_accessor :default_phase
 
     def initialize
@@ -18,7 +18,9 @@ module Handcuffs
       @default_phase = nil
     end
 
+    def phases=(phases)
+      @phases = Phases.new(phases)
+    end
   end
-
 end
 

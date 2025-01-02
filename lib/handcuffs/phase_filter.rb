@@ -41,7 +41,7 @@ class Handcuffs::PhaseFilter
   end
 
   def check_order_up!(by_phase, defined_phases)
-    defined_phases.take_while { |defined_phase| defined_phase != attempted_phase }
+    defined_phases.prereqs(attempted_phase)
       .detect { |defined_phase| by_phase.key?(defined_phase) }
       .tap do |defined_phase|
         raise HandcuffsPhaseOutOfOrderError.new(defined_phase, attempted_phase) if defined_phase
@@ -58,7 +58,7 @@ class Handcuffs::PhaseFilter
   end
 
   def all_phases_by_configuration_order(by_phase, defined_phases)
-    defined_phases.reduce([]) do |acc, phase|
+    defined_phases.in_order.reduce([]) do |acc, phase|
       acc | Array(by_phase[phase])
     end.map { |mh| mh[:proxy] }
   end
