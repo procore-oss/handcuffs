@@ -4,75 +4,53 @@
 [![Gem Version](https://badge.fury.io/rb/handcuffs.svg)](https://badge.fury.io/rb/handcuffs)
 [![Discord](https://img.shields.io/badge/Chat-EDEDED?logo=discord)](https://discord.gg/PbntEMmWws)
 
-Handcuffs provides an easy way to run migrations in phases in your [Ruby on Rails](https://rubyonrails.org/) application.
+Handcuffs provides an easy way to run [Ruby on Rails](https://rubyonrails.org/) migrations in phases using a simple process:
 
-To configure, first create a handcuff initializer and define a configuration
+1. Define a set of named phases in the order in which they should be run
+2. Tag migrations with one of the defined phase names
+3. Run migrations by phase at start, end or outside of application deployment
+
+
+## Installation
+
+Add this line to your application's Gemfile:
+
+```ruby
+gem 'handcuffs'
+```
+
+And then execute:
+
+```bash
+bundle
+```
+
+Or install it directly on the current system using:
+
+```bash
+gem install handcuffs
+```
+
+
+## Usage
+
+### Configuration
+
+Create a handcuffs initializer and define the migration phases in the order in which they should be run. You should also define a default phase for pre-existing "untagged" migrations, or if you want the option to tag only custom phases.
+
+The most basic configuration is an array of phase names, and using the first one as the default:
 
 ```ruby
 # config/initializers/handcuffs.rb
 
 Handcuffs.configure do |config|
+  # pre_restart migrations will/must run before post_restart migrations
   config.phases = [:pre_restart, :post_restart]
+  config.default_phase = :pre_restart
 end
 ```
 
-Then call `phase` from inside your migrations
-
-```ruby
-# db/migrate/20160318230933_add_on_sale_column.rb
-
-class AddOnSaleColumn < ActiveRecord::Migration
-
-  phase :pre_restart
-
-  def up
-    add_column :products, :on_sale, :boolean
-  end
-
-  def down
-    remove_column :products, :on_sale
-  end
-
-end
-```
-
-```ruby
-# db/migrate/20160318230988_add_on_sale_index
-
-class AddOnSaleIndex < ActiveRecord::Migration
-
-  phase :post_restart
-
-  def up
-    add_index :products, :on_sale, algorithm: :concurrently
-  end
-
-  def down
-    remove_index :products, :on_sale
-  end
-
-end
-```
-
-You can then run your migrations in phases using
-
-```bash
-rake 'handcuffs:migrate[pre_restart]'
-```
-
-or
-
-```bash
-rake 'handcuffs:migrate[post_restart]'
-```
-
-You can run all migrations using
-
-```bash
-rake 'handcuffs:migrate[all]'
-```
-
-This differs from running `rake db:migrate` in that migrations will be run in the _order that the phases are defined in the handcuffs config_. By default, a phase is assumed to depend on all phases named before it. Phase dependencies can be customized by declaring a dependency graph explicitly:
+If you have more complex or asynchrous workflows, you can use an alternate hash notation that allows pre-requisite stages to be specified explicitly:
 
 ```ruby
 # config/initializers/handcuffs.rb
@@ -91,56 +69,96 @@ Handcuffs.configure do |config|
 end
 ```
 
-The phase order of `handcuffs:migrate[all]` will satisfy these dependencies, but is otherwise unspecified.
-
-If you run a handcuffs rake task and any migration does not have a phase defined, an error will be raised before any migrations are run. To prevent this error, you can define a default phase for migrations that don't define one.
+The default phase order in this case is determined by [Tsort](https://github.com/ruby/tsort) (topilogical sort). In order to validate the configuration and expected phase order it is reccomended that you check the phase configuration after any changes using the rake task:
 
 ```ruby
-# config/initializers/handcuffs.rb
+rake handcuffs:phase_order
+```
 
-Handcuffs.configure do |config|
-  config.phases = [:pre_restart, :post_restart]
-  config.default_phase = :pre_restart
+This will display the default order in which phases will be run and list the pre-requisites of each phase. It will raise an error if there are any circular dependencies or if any pre-requisite is not a valid phase name.
+
+### Tagging Migrations
+
+Once configured, you can assign each migration to one of the defined phases using the `phase` setter method:
+
+```ruby
+# db/migrate/20240318230933_add_on_sale_column.rb
+
+class AddOnSaleColumn < ActiveRecord::Migration[7.0]
+
+  phase :pre_restart
+
+  def change
+    add_column :products, :on_sale, :boolean
+  end
 end
 ```
 
-## Installation
-
-Add this line to your application's Gemfile:
-
 ```ruby
-gem 'handcuffs'
+# db/migrate/20240318230988_add_on_sale_index
+
+class AddOnSaleIndex < ActiveRecord::Migration[7.0]
+
+  phase :post_restart
+
+  def change
+    add_index :products, :on_sale, algorithm: :concurrently
+  end
+end
 ```
 
-And then execute:
+### Running Migrations In Phases
+
+After Handcuffs is configured and migrations are properly tagged, you can then run  migrations in phases using the `handcuffs:migrate` rake task with the specific phase to be run:
 
 ```bash
-bundle
+rake 'handcuffs:migrate[pre_restart]'
 ```
 
-Or install it yourself as:
+or
 
 ```bash
-gem install handcuffs
+rake 'handcuffs:migrate[post_restart]'
 ```
 
-## Running specs
+*Note:* If you run phases out of order there are any pre-requisite phases (e.g. `phase :pre_restart`) with migrations that have not yet been run. In which case, trying to run a dependent phase (e.g. `phase: post_restart`) will raise a `HandcuffsPhaseOutOfOrderError`.
 
-The specs for handcuffs are in the dummy application at `/spec/dummy/spec`. The spec suite requires PostgreSQL. To run it you will have to set the environment variables `POSTGRES_DB_USERNAME` and `POSTGRES_DB_PASSWORD`. You can then run the suite using `rake spec`
+### Running All Migrations
+
+In CI and local developement you may want to run all phases at one time.
+
+Handcuffs offers a single command that will run all migrations in phases and in the configured order:
+
+```bash
+rake 'handcuffs:migrate[all]'
+```
+
+This differs from running `rake db:migrate` in that migrations will be run in batches corresponding to the _order that the phases are defined in the handcuffs config_. Again, you can use `rake handcuffs:phase_order` to preview the order ahead of time.
+
+Of course, you can always run `rake db:migrate` at any time to run all migrations using the Rails default ordering and without regard to Handcuffs phase if you wish.
+
+
 
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at <https://github.com/procore-oss/handcuffs>. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
+
+## Running Tests Locally
+
+The specs for handcuffs are in the dummy application at `/spec/dummy/spec`. The spec suite requires PostgreSQL. To run it you will have to set the environment variables `POSTGRES_DB_USERNAME` and `POSTGRES_DB_PASSWORD`. You can then run the suite using `rake spec`
+
+
 ## License
 
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
 
+
 ## About Procore
 
 <img
-  src="https://www.procore.com/images/procore_logo.png"
-  alt="Procore Logo"
+  src="https://raw.githubusercontent.com/procore-oss/.github/main/procorelightlogo.png"
+  alt="Procore Open Source"
   width="250px"
 />
 
