@@ -1,3 +1,4 @@
 log/
 db/schema.rb
 coverage/
+tmp/

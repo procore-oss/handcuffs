@@ -7,7 +7,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## 2.0.0
+## 2.1.0 : 2025-01-24 [diff](https://github.com/procore-oss/handcuffs/compare/v2.0.0..main)
+
+### Added
+
+- Ability to specify prerequisite phases in a non-linear order
+
+### Changed
+
+- (internal) bumped rspec-rails gem version in development dependencies
+- (internal) bumped minimum gem versions in test Rails app
+- (internal) update github workflow
+
+
+## 2.0.0 : 2024-02-20 [diff](https://github.com/procore-oss/handcuffs/compare/v1.4.1..v2.0.0)
+
+### Removed
+
+- **BREAKING CHANGE**: Removed support for Ruby < 2.7, Rails < 6.1, PostgreSQL < 12.
 
 ### Added
 
@@ -24,7 +41,3 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated Bundler to 2.4.22.
 - Added Appraisal for dummy app testing.
 - Moved repo to procore-oss
-
-### Removed
-
-- BREAKING CHANGE: Removed support for Ruby < 2.7, Rails < 6.1, PostgreSQL < 12.
