@@ -50,7 +50,7 @@ Handcuffs.configure do |config|
 end
 ```
 
-If you have more complex or asynchrous workflows, you can use an alternate hash notation that allows pre-requisite stages to be specified explicitly:
+If you have more complex or asynchrous workflows, you can use an alternate hash notation that allows prerequisite stages to be specified explicitly:
 
 ```ruby
 # config/initializers/handcuffs.rb
@@ -75,7 +75,7 @@ The default phase order in this case is determined by [Tsort](https://github.com
 rake handcuffs:phase_order
 ```
 
-This will display the default order in which phases will be run and list the pre-requisites of each phase. It will raise an error if there are any circular dependencies or if any pre-requisite is not a valid phase name.
+This will display the default order in which phases will be run and list the prerequisites of each phase. It will raise an error if there are any circular dependencies or if any prerequisite is not a valid phase name.
 
 ### Tagging Migrations
 
@@ -121,7 +121,7 @@ or
 rake 'handcuffs:migrate[post_restart]'
 ```
 
-*Note:* If you run phases out of order, or attempt to run a phase before outstanding migrations with a prerequisite phase have been run, a `HandcuffsPhaseOutOfOrderError` will be raised. 
+*Note:* If you run phases out of order, or attempt to run a phase before outstanding migrations with a prerequisite phase have been run, a `HandcuffsPhaseOutOfOrderError` will be raised.
 
 ### Running All Migrations
 
