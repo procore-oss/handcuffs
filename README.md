@@ -109,7 +109,7 @@ end
 
 ### Running Migrations In Phases
 
-After Handcuffs is configured and migrations are properly tagged, you can then run  migrations in phases using the `handcuffs:migrate` rake task with the specific phase to be run:
+After Handcuffs is configured and migrations are properly tagged, you can then run migrations in phases using the `handcuffs:migrate` rake task with the specific phase to be run:
 
 ```bash
 rake 'handcuffs:migrate[pre_restart]'
@@ -121,7 +121,7 @@ or
 rake 'handcuffs:migrate[post_restart]'
 ```
 
-*Note:* If you run phases out of order there are any pre-requisite phases (e.g. `phase :pre_restart`) with migrations that have not yet been run. In which case, trying to run a dependent phase (e.g. `phase: post_restart`) will raise a `HandcuffsPhaseOutOfOrderError`.
+*Note:* If you run phases out of order, or attempt to run a phase before outstanding migrations with a prerequisite phase have been run, a `HandcuffsPhaseOutOfOrderError` will be raised. 
 
 ### Running All Migrations
 
