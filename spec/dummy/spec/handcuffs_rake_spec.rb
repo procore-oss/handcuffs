@@ -2,7 +2,7 @@
 
 require_relative 'spec_helper'
 
-RSpec.describe 'handcuffs.rake' do
+RSpec.describe 'handcuffs' do
   include_context 'rake'
   let!(:add_table_foo_version) { '20160329040426' } # pre_restart
   let!(:add_column_foo_widget_count_version) { '20160329042840' } # pre_restart
@@ -12,6 +12,8 @@ RSpec.describe 'handcuffs.rake' do
   let!(:add_table_bar_version) { '20160330005509' } # none
 
   describe 'handcuffs:migrate' do
+    subject { rake['handcuffs:migrate'] }
+
     it 'raises an error when not passed a phase argument' do
       expect { subject.invoke }.to raise_error(RequiresPhaseArgumentError)
     end
@@ -125,6 +127,8 @@ RSpec.describe 'handcuffs.rake' do
   end
 
   describe 'handcuffs:rollback' do
+    subject { rake['handcuffs:rollback'] }
+
     it 'raises an error when not passed a phase argument' do
       expect { subject.invoke }.to raise_error(RequiresPhaseArgumentError)
     end

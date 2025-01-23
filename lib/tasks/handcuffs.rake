@@ -37,6 +37,7 @@ namespace :handcuffs do
   end
 
   def patch_migrator!(phase)
+    ActiveRecord::Migrator.extend(Handcuffs::Extensions)
     ActiveRecord::Migrator.prepend(Handcuffs::PendingFilterExt)
     ActiveRecord::Migrator.handcuffs_phase = phase
   end

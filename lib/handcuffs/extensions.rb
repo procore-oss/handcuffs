@@ -3,7 +3,7 @@
 module Handcuffs
   # Extended by ActiveRecord::Migrator in order to track the current phase
   module Extensions
-    attr_reader :handcuffs_phase
+    attr_accessor :handcuffs_phase
 
     def phase(phase)
       @handcuffs_phase = phase
