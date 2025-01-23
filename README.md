@@ -10,7 +10,6 @@ Handcuffs provides an easy way to run [Ruby on Rails](https://rubyonrails.org/) 
 2. Tag migrations with one of the defined phase names
 3. Run migrations by phase at start, end or outside of application deployment
 
-
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -30,7 +29,6 @@ Or install it directly on the current system using:
 ```bash
 gem install handcuffs
 ```
-
 
 ## Usage
 
@@ -68,8 +66,7 @@ Handcuffs.configure do |config|
   }
 end
 ```
-
-The default phase order in this case is determined by [Tsort](https://github.com/ruby/tsort) (topilogical sort). In order to validate the configuration and expected phase order it is reccomended that you check the phase configuration after any changes using the rake task:
+The default phase order in this case is determined by [Tsort](https://github.com/ruby/tsort) (topological sort). In order to validate the configuration and expected phase order it is recommended that you check the phase configuration after any changes using the rake task:
 
 ```ruby
 rake handcuffs:phase_order
@@ -106,7 +103,6 @@ class AddOnSaleIndex < ActiveRecord::Migration[7.0]
   end
 end
 ```
-
 ### Running Migrations In Phases
 
 After Handcuffs is configured and migrations are properly tagged, you can then run migrations in phases using the `handcuffs:migrate` rake task with the specific phase to be run:
@@ -137,22 +133,19 @@ This differs from running `rake db:migrate` in that migrations will be run in ba
 
 Of course, you can always run `rake db:migrate` at any time to run all migrations using the Rails default ordering and without regard to Handcuffs phase if you wish.
 
-
-
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at <https://github.com/procore-oss/handcuffs>. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
-
 ## Running Tests Locally
 
-The specs for handcuffs are in the dummy application at `/spec/dummy/spec`. The spec suite requires PostgreSQL. To run it you will have to set the environment variables `POSTGRES_DB_USERNAME` and `POSTGRES_DB_PASSWORD`. You can then run the suite using `rake spec`
+The specs for handcuffs are in the dummy application at `/spec/dummy/spec`. The spec suite requires PostgreSQL. To run it you will have to set the environment variables `POSTGRES_DB_USERNAME` and `POSTGRES_DB_PASSWORD`.
 
+We use [appraisal](https://github.com/thoughtbot/appraisal) to run our test suite against all Rails versions that we support, as a means of quickly identifying potential regressions. To do this locally, first run `bundle exec appraisal install` to ensure all required dependencies are setup, and then run `bundle exec appraisal rspec`.
 
 ## License
 
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
-
 
 ## About Procore
 
