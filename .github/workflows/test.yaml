@@ -33,9 +33,9 @@ jobs:
       RAILS_ENV: test
       BUNDLER_VERSION: 2.4.22
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
       - name: Set up Ruby ${{ matrix.ruby }}
-        uses: ruby/setup-ruby@3783f195e29b74ae398d7caca108814bbafde90e # v1
+        uses: ruby/setup-ruby@32110d4e311bd8996b2a82bf2a43b714ccc91777 # v1
         with:
           ruby-version: ${{ matrix.ruby }}
           bundler: ${{ env.BUNDLER_VERSION }}
