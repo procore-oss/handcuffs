@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
       - name: Check if version has been updated
         id: check
-        uses: tj-actions/changed-files@d6babd6899969df1a11d14c368283ea4436bca78 # v44
+        uses: tj-actions/changed-files@e0021407031f5be11a464abee9a0776171c79891 # v44
         with:
           files: lib/handcuffs/version.rb
   release:
