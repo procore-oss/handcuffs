@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Handcuffs
-  Error = Module.new
+  module Error; end
 end

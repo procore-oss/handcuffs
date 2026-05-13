@@ -1,44 +1,47 @@
 # frozen_string_literal: true
 
 namespace :handcuffs do
-  task :migrate, [:phase] => :environment do |_t, args|
-    phase = setup(args, 'handcuffs:migrate')
+  task :migrate, [:phase] => :environment do |task, args|
+    phase = args.phase&.to_sym
+    validate_phase_for_task!(phase:, task:)
+
     patch_migrator!(phase)
     run_task('db:migrate')
   end
 
   task :rollback, [:phase] => :environment do |_t, args|
-    phase = setup(args, 'handcuffs:rollback')
+    phase = args.phase&.to_sym
+    validate_phase_for_task!(phase:, task:)
+
     patch_migrator!(phase)
     run_task('db:rollback')
   end
 
   task phase_order: :environment do
-    raise HandcuffsNotConfiguredError unless Handcuffs.config
+    raise Handcuffs::NotConfiguredError unless Handcuffs.configured?
 
     puts 'Configured Handcuffs phases, in order, are:'
-    phases = Handcuffs.config.phases || return
+    phases = Handcuffs.configuration.phases || return
 
     phases.in_order.each_with_index do |phase, idx|
       puts (idx + 1).to_s.rjust(3) + ". #{phase}, requires: #{phases.prereqs(phase).join(', ').presence || '(nothing)'}"
     end
   end
 
-  def setup(args, task)
-    phase = args.phase.presence&.to_sym
+  # Validates the provided phase is valid.
+  def validate_phase_for_task!(phase:, task:)
+    raise Handcuffs::RequiresPhaseArgumentError.new(task) unless phase.present?
 
-    raise RequiresPhaseArgumentError.new(task) unless phase.present?
+    raise Handcuffs::NotConfiguredError.new unless Handcuffs.configured?
+    return if Handcuffs.configuration.phases.include?(phase) || phase == :all
 
-    raise HandcuffsNotConfiguredError unless Handcuffs.config
-
-    return phase if Handcuffs.config.phases.include?(phase) || phase == :all
-
-    raise HandcuffsUnknownPhaseError.new(phase, Handcuffs.config.phases)
+    raise Handcuffs::UnknownPhaseError.new(phase)
   end
 
   def patch_migrator!(phase)
-    ActiveRecord::Migrator.extend(Handcuffs::Extensions)
-    ActiveRecord::Migrator.prepend(Handcuffs::PendingFilterExt)
+    ActiveRecord::Migrator.extend(Handcuffs::PhaseTracker)
+    ActiveRecord::Migrator.prepend(Handcuffs::PendingFilter)
+
     ActiveRecord::Migrator.handcuffs_phase = phase
   end
 

@@ -1,0 +1,8 @@
+test:
+  adapter: sqlite3
+  database: 'file::memory:?cache=shared'
+  # 70 = SQLITE_OPEN_URI | SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE
+  # Required so sqlite3 parses the `file:` URI for a shared in-memory DB
+  # instead of treating it as a literal filename in the repo root.
+  flags: 70
+  pool: 5

@@ -1,26 +1,24 @@
-require "handcuffs/errors/configuration_block_missing_error"
+# frozen_string_literal: true
 
 module Handcuffs
-  mattr_accessor :config
-
-  def self.configure
-    raise ConfigurationBlockMissingError unless block_given?
-    @@config = Configurator.new
-    yield @@config
-  end
-
-  class Configurator
-    attr_reader :phases
+  # Encapsulates configuration for Handcuffs.
+  class Configuration
     attr_accessor :default_phase
+    attr_reader :phases
 
-    def initialize
-      @phases = []
-      @default_phase = nil
+    # @param phases [Array<Symbol>] available phases for migrations
+    # @param default_phase [Symbol] default phase that is used when a migration does not have specify a phase.
+    def initialize(phases: [], default_phase: nil)
+      @phases = Handcuffs::Phases.new(phases)
+      @default_phase = default_phase
     end
 
     def phases=(phases)
-      @phases = Phases.new(phases)
+      @phases = Handcuffs::Phases.new(phases)
+    end
+
+    def configured?
+      phases.configured?
     end
   end
 end
-

@@ -1,0 +1,13 @@
+# frozen_string_literal: true
+
+module Handcuffs
+  module Dsl
+    attr_accessor :handcuffs_phase
+
+    # Sets the desired phase for the migration.
+    # @param phase [Symbol] the phase to set for the migration
+    def phase(phase)
+      @handcuffs_phase = phase
+    end
+  end
+end

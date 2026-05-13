@@ -9,5 +9,10 @@
 /spec/reports/
 /tmp/
 handcuffs-*.gem
+.rspec_status
 .ruby-version
+.tool-versions
 .DS_Store
+spec/internal/log/
+spec/internal/db/*.sqlite3
+spec/internal/.env
