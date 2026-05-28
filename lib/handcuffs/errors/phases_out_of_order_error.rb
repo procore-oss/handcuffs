@@ -4,10 +4,10 @@ module Handcuffs
   class PhasesOutOfOrderError < StandardError
     include Error
 
-    attr_reader :not_run_phase, :attempted_phase
+    attr_reader :prerequisite_phase, :attempted_phase
 
-    def initialize(not_run_phase:, attempted_phase:)
-      @not_run_phase = not_run_phase
+    def initialize(prerequisite_phase:, attempted_phase:)
+      @prerequisite_phase = prerequisite_phase
       @attempted_phase = attempted_phase
       super(build_message)
     end
@@ -16,7 +16,7 @@ module Handcuffs
 
     def build_message
       @_build_message ||= <<-MESSAGE
-        You tried to run #{attempted_phase}, but #{not_run_phase} has not been run
+        You tried to run #{attempted_phase}, but #{prerequisite_phase} has not been run
       MESSAGE
     end
   end

@@ -6,7 +6,7 @@ module Handcuffs
   # Phases encapsulates the list of phases and any interdependencies
   class Phases
     def initialize(phases)
-      @phases = configre_phases(phases)
+      @phases = configure_phases(phases)
     end
 
     def to_sentence
@@ -34,7 +34,7 @@ module Handcuffs
 
     private
 
-    def configre_phases(phases)
+    def configure_phases(phases)
       case phases
       when Hash
         phases.each_with_object({}) do |phase, acc|

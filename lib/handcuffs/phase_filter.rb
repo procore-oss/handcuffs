@@ -61,7 +61,7 @@ module Handcuffs
         tap do |defined_phase|
           if defined_phase
             raise Handcuffs::PhasesOutOfOrderError.new(
-              not_run_phase: defined_phase,
+              prerequisite_phase: defined_phase,
               attempted_phase: attempted_phase
             )
           end
@@ -84,6 +84,8 @@ module Handcuffs
     end
 
     def check_for_undefined_phases!(migration_hashes)
+      # When a default_phase is configured, migrations without an explicit
+      # phase fall back to it, so this check is moot.
       return if Handcuffs.configuration.default_phase
 
       nil_migration_hashes = migration_hashes.select do |mh|
@@ -97,13 +99,14 @@ module Handcuffs
 
     def check_for_undeclared_phases!(migration_hashes)
       unknown_phases = migration_hashes.
-                         lazy.
-                         map { |mh| mh[:migration].handcuffs_phase }.
-                         reject(&:nil?).
-                         select { |phase| !phase.in?(Handcuffs.configuration.phases) }.to_a
+        lazy.
+        map { |mh| mh[:migration].handcuffs_phase }.
+        reject(&:nil?).
+        reject { |phase| phase.in?(Handcuffs.configuration.phases) }.
+        to_a
       return unless unknown_phases.any?
 
-      raise Handcuffs::UndeclaredPhaseError.new(unknown_phases, Handcuffs.configuration.phases)
+      raise Handcuffs::UndeclaredPhaseError.new(found: unknown_phases)
     end
 
     def phase(migration)

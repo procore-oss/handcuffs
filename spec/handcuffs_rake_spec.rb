@@ -111,6 +111,20 @@ RSpec.describe 'handcuffs' do
       end
     end
 
+    context 'with phases that do not match declared migration phases' do
+      before do
+        Handcuffs.reset_configuration!
+        Handcuffs.configure do |config|
+          config.phases = %i[only_phase]
+          config.default_phase = :only_phase
+        end
+      end
+
+      it 'raises UndeclaredPhaseError' do
+        expect { subject.invoke(:only_phase) }.to raise_error(Handcuffs::UndeclaredPhaseError)
+      end
+    end
+
     context 'explicitly dependency graph' do
       before do
         Handcuffs.reset_configuration!
