@@ -98,11 +98,12 @@ module Handcuffs
     end
 
     def check_for_undeclared_phases!(migration_hashes)
+      configured = Handcuffs.configuration.phases
       unknown_phases = migration_hashes.
         lazy.
         map { |mh| mh[:migration].handcuffs_phase }.
         reject(&:nil?).
-        reject { |phase| phase.in?(Handcuffs.configuration.phases) }.
+        reject { |phase| configured.declared?(phase) }.
         to_a
       return unless unknown_phases.any?
 

@@ -17,6 +17,12 @@ module Handcuffs
       @phases.include?(phase)
     end
 
+    # Returns true if the given phase name is part of the configured phase set.
+    # Equivalent to `include?` but reads clearer at call sites.
+    def declared?(phase)
+      @phases.key?(phase)
+    end
+
     def in_order
       TSort.tsort(
         @phases.method(:each_key),
